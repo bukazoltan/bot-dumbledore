@@ -4,17 +4,12 @@ import requests
 import json
 import random
 
-lyrics_root = "https://api.musixmatch.com/ws/1.1/"
-lyrics_api = "1f4f14fb6b297b2a1aa077c24179856d"
-
 dices = ["https://upload.wikimedia.org/wikipedia/commons/2/2c/Alea_1.png",
         "https://upload.wikimedia.org/wikipedia/commons/b/b8/Alea_2.png",
         "https://upload.wikimedia.org/wikipedia/commons/2/2f/Alea_3.png",
         "https://upload.wikimedia.org/wikipedia/commons/8/8d/Alea_4.png",
         "https://upload.wikimedia.org/wikipedia/commons/5/55/Alea_5.png",
         "https://upload.wikimedia.org/wikipedia/commons/f/f4/Alea_6.png"]
-
-brewery_id = "https://sandbox-api.brewerydb.com/v2/beer/random/?key=b5c589eb2f2f7670bd40559b73d48b1d"
 
 cat_root = "https://cat-fact.herokuapp.com/facts"
 
@@ -32,21 +27,6 @@ cat_fact_list = cat_response["all"]'''
 class Fun_api(commands.Cog, name='Fun API'):
     def __init__(self, client):
         self.client = client
-
-    @commands.command(pass_context=True)
-    async def lyrics(self, ctx, track, artist):
-        url = lyrics_root + "track.search?q_track=" + track + "&q_artist=" + artist +"&apikey=" + lyrics_api
-        response = requests.get(url).json()
-        print(url)
-        has_lyrics = response["message"]["body"]["track_list"][0]["track"]["has_lyrics"]
-        if has_lyrics == 1:
-            track_id = response["message"]["body"]["track_list"][0]["track"]["track_id"]
-            lyrics_url = lyrics_root + "track.lyrics.get?track_id=" + str(track_id) + "&apikey=" + lyrics_api
-            lyrics_resp = requests.get(lyrics_url).json()
-            lyrics_body = lyrics_resp["message"]["body"]["lyrics"]["lyrics_body"]
-            await ctx.send(lyrics_body)
-        else:
-            await ctx.send("No lyrics found, sorry! :(")
 
     @commands.command()
     async def hp1(self, ctx, id : str = None):
@@ -174,36 +154,6 @@ class Fun_api(commands.Cog, name='Fun API'):
         embed.add_field(name="Alcohol By Volume: ", value=abv, inline=True)
         embed.add_field(name="Original Gravity: ", value=og, inline=True)
         embed.add_field(name="Brewery: ", value=brewery, inline=True)
-        embed.add_field(name="Nationality: ", value=country, inline=True)
-        await ctx.send(embed=embed)
-
-    @commands.command()
-    async def newbeer(self, ctx):
-        flag_url_base = "https://www.countryflags.io/"
-
-        resp = requests.get('https://sandbox-api.brewerydb.com/v2/beer/random?key=b5c589eb2f2f7670bd40559b73d48b1d&withBreweries=y').json()
-        name = "Your random beer is: " + resp["data"]["nameDisplay"]
-        style_desc = resp["data"]["style"]["description"]
-        country_code = resp["data"]["breweries"][0]["locations"][0]["country"]["isoCode"]
-        country = resp["data"]["breweries"][0]["locations"][0]["country"]["displayName"]
-        if resp["data"]["abv"]:
-            abv = resp["data"]["abv"]  + "%"
-        else:
-            abv = "No data"
-        if resp["data"]["ibu"]:
-            ibu = resp["data"]["ibu"]
-        else:
-            ibu = "No data"
-
-        style = resp["data"]["style"]["name"]
-
-        flag = flag_url_base + country_code.lower() + "/shiny/64.png"
-
-        embed =discord.Embed(title=name, color=0x6b93ed)
-        embed.set_thumbnail(url=flag)
-        embed.add_field(name=style, value=style_desc, inline=True)
-        embed.add_field(name="Alcohol By Volume: ", value=abv, inline=True)
-        embed.add_field(name="International Bitterness Units: ", value=ibu, inline=True)
         embed.add_field(name="Nationality: ", value=country, inline=True)
         await ctx.send(embed=embed)
 
