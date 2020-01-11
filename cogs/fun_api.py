@@ -3,6 +3,9 @@ from discord.ext import commands
 import requests
 import json
 import random
+from pathlib import Path
+
+text_folder = Path("assets/text/")
 
 dices = ["https://upload.wikimedia.org/wikipedia/commons/2/2c/Alea_1.png",
         "https://upload.wikimedia.org/wikipedia/commons/b/b8/Alea_2.png",
@@ -13,10 +16,10 @@ dices = ["https://upload.wikimedia.org/wikipedia/commons/2/2c/Alea_1.png",
 
 cat_root = "https://cat-fact.herokuapp.com/facts"
 
-file = open('nixxo_quotes.txt', 'r', encoding="latin-1")
+file = open(text_folder / 'nixxo_quotes.txt', 'r', encoding="latin-1")
 nixxo_quotes = file.readlines()
 
-with open('hp1.txt', 'r', encoding="latin-1") as content_file:
+with open(text_folder / 'hp1.txt', 'r', encoding="latin-1") as content_file:
     content = content_file.read()
 
 hp1_book = content.split("\n\n")

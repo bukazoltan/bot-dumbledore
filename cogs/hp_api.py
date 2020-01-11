@@ -6,10 +6,13 @@ import random
 import difflib
 import wikia
 import os
+from pathlib import Path
 
-d_file = open('d_quotes.txt', 'r')
-d_quotes = d_file.readlines()
-d_images = open('d_images.txt', 'r').readlines()
+text_folder = Path("assets/text/")
+
+
+d_quotes = open(text_folder / "d_quotes.txt", 'r').readlines()
+d_images = open(text_folder / "d_images.txt",'r').readlines()
 
 houses = [
     {"name": "Slytherin", "desc": "Slytherin house values ambition, cunning and resourcefulness and was founded by Salazar Slytherin. Its emblematic animal is the serpent, and its colours are emerald green and silver.", "url": "https://vignette.wikia.nocookie.net/harrypotter/images/d/d3/0.61_Slytherin_Crest_Transparent.png/revision/latest?cb=20161020182557", "color": 0x00c400},

@@ -14,7 +14,7 @@ config = configparser.ConfigParser()
 config.read('config.ini')
 TOKEN = config['LOGIN']['token']
 
-client = commands.Bot(command_prefix = '/')
+client = commands.Bot(command_prefix = '%')
 client.remove_command('help')
 extensions = ['meta', 'hp_api', 'housecup', 'reaction', 'fun_api', 'mod']
 extensions_route = "cogs."
